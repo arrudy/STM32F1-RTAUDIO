@@ -1,0 +1,19 @@
+# Copyright (c) 2023 Synopsys.
+#
+# SPDX-License-Identifier: Apache-2.0
+mainmenu "VoiRunner Application"
+
+config VOIRUNNER_LL_DRIVERS
+    bool "Enable Low Level Drivers"
+    default y
+    depends on SOC_SERIES_STM32F1X
+    
+    # We explicitly select the LL drivers we need for 'main.c'
+    select USE_STM32_LL_TIM   # <--- This gives us stm32_ll_tim.h and the library
+    select USE_STM32_LL_ADC   # <--- Already selected by CONFIG_ADC, but explicit is safe
+    select USE_STM32_LL_DMA   # <--- For clock control
+    select USE_STM32_LL_RCC   # <--- For clock control
+    select USE_STM32_LL_UTILS # <--- For system utilities/delays
+    select USE_STM32_LL_GPIO
+
+source "Kconfig.zephyr"
